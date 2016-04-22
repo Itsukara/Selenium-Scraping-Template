@@ -58,7 +58,7 @@ function write_file(fname, data) {
   fs.writeFile(fname, data);
 }
 
-// サイトからデータを取得しファイルへ書き込み(バイナリーも可、cooke付与)
+// サイトからデータを取得しファイルへ書き込み(バイナリーも可、cookie付与)
 function request_withcookie(url, fname) {
   fname = fname.replace(/^[\/]*/, "");
   fname = d_normalize(fname);
@@ -215,7 +215,7 @@ function get_subcontent(subcontent_links) {
             .then(function(resouces_3) {
               for (var i = 0; i < resouces_3.length; i++) {
                 var fname = d_normalize(resouces_3[i].fname);
-                var furl = resouces_3[i].url;
+                var furl = resouces_3[i].furl;
                 request_withcookie(furl, subcontent_dir + "/" + fname);
               }
             });
@@ -308,7 +308,7 @@ function get_contents() {
 	["２つめのコンテンツ", "http://bbb.com/contents/content_002"],
 	["３つめのコンテンツ", "http://bbb.com/contents/content_003"],
 	["４つめのコンテンツ", "http://bbb.com/contents/content_004"],
-	["５つめのコンテンツ", "http://bbb.com/contents/content_005"],
+	["５つめのコンテンツ", "http://bbb.com/contents/content_005"]
 	];
 	
 // デバッグおよび途中再開用
