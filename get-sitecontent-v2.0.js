@@ -44,7 +44,7 @@ function mkdirSyncIfNotExit(dir) {
 function mkdirTreeSyncIfNotExit(fname) {
   var dirA = fname.split("/").slice(0, -1);
   var dir = "";
-  for (i = 0; i < dirA.length; i++) {
+  for (var i = 0; i < dirA.length; i++) {
     dir += dirA[i] + "/";
     mkdirSyncIfNotExit(dir);
   }
@@ -83,7 +83,7 @@ var driver = new webdriver.Builder()
     .build();
 
 // @Before
-baseUrl = "http://bbb.com/";
+var baseUrl = "http://bbb.com/";
 driver.manage().timeouts().implicitlyWait(1000);
 
 // @Scraping開始
@@ -171,8 +171,8 @@ function get_subcontent(subcontent_links) {
             .then(function(resouces_1) {
               for (var i = 0; i < resouces_1.length; i++) {
                 var fname = d_normalize(resouces_1[i].fname);
-                var fcontent = resouces_1[i].fcontent;
-                write_file(subcontent_dir + "/" + fname, fcontent);
+                var fdata = resouces_1[i].fdata;
+                write_file(subcontent_dir + "/" + fname, fdata);
               }
             });
           });
@@ -245,11 +245,14 @@ function get_content_summary () {
 
 // サブコンテンツの名称とURLを収集して返す
 function get_subcontent_links() {
-  subcontent_links = [];
-  
-  // for (...) {
-  //   subcontent_links.push([name, link]);
-  // }
+  var subcontent_links = [];
+
+  var subcontent_links_dom = document.querySelectorAll("#subcontent_list>li>a");
+  for (var i = 0; i < subcontent_links_dom.length; i++) {
+    var link = subcontent_links_dom[i].href;
+    var name = subcontent_links_dom[i].innerText;
+    subcontent_links.push([name, link]);
+  }
 
   return subcontent_links;
 }
@@ -267,42 +270,51 @@ function get_subcontent_summary() {
 
 // サブコンテンツのリソース内容をテキストで抽出し、ファイル名と共に返す
 function get_resouces_1() {
-  var rsources = [];
+  var resources = [];
 
-  // for (...) {
-  //   rsources.push({fname: fname, fcontent: fcontent});
-  // }
-
-  return sources;
+  var resource_1 = document.querySelectorAll('Selector of resource_1')
+  for (var i = 0; i < resource_1.length; i++) {
+    var fname = resource_1[i].filename;
+    var fdata = resource_1[i].fdata;
+    resources.push({fname: fname, fdata: fdata});
+  }
+  
+  return resources;
 }
 
 // サブコンテンツの名称とURLを抽出して返す
 // (1) cookie無しで取得できるリソース
 function get_resouces_2() {
-  var rsources = [];
+  var resources = [];
 
-  // for (...) {
-  //   rsources.push({fname: fname, furl: furl});
-  // }
-
-  return sources;
+  var resouces_2 = document.querySelectorAll('Selector of resource_2>a')
+  for (var i = 0; i < resouces_2.length; i++) {
+    var fname = resouces_2[i].innerText;
+    var furl  = resouces_2[i].href;
+    resources.push({fname: fname, furl: furl});
+  }
+  
+  return resources;
 }
 
 // サブコンテンツの名称とURLを抽出して返す
 // (2) cookie付きで取得できるリソース
 function get_resouces_3() {
-  var rsources = [];
+  var resources = [];
 
-  // for (...) {
-  //   rsources.push({fname: fname, furl: furl});
-  // }
-
-  return sources;
+  var resouces_3 = document.querySelectorAll('Selector of resouces_3>a')
+  for (var i = 0; i < resouces_3.length; i++) {
+    var fname = resouces_3[i].innerText;
+    var furl  = resouces_3[i].href;
+    resources.push({fname: fname, furl: furl});
+  }
+  
+  return resources;
 }
 
 
 // コンテンツ一覧 (下記に記載する)
-function get_contents() {
+function get_content_links() {
 	var contents = [
 	["１つめのコンテンツ", "http://bbb.com/contents/content_001"],
 	["２つめのコンテンツ", "http://bbb.com/contents/content_002"],
